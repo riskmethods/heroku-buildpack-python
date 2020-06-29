@@ -1,11 +1,39 @@
 # Python Buildpack Changelog
 
-# Master
+# 170 (2020-05-19)
+
+- Python 2.7.18, 3.5.9, 3.7.7 and 3.8.3 are now available (CPython).
+- PyPy 2.7 and 3.6, version 7.3.1 are now available (Note: PyPy support is in beta)
+- Docs: Fix explanation of runtime.txt generation when using pipenv
+- Bugfix: Correctly detect Python version when using a `python_version` of `3.8` in `Pipfile.lock`
+
+--------------------------------------------------------------------------------
+
+# 169 (2020-04-22)
+
+- Add a Hatchet test for python 3.8.2
+- Set Code Owners to @heroku/langauges
+- Bugfix: Caching on subsequent redeploys
+- Update tests to support latest version of Python
+
+# 168 (2020-04-06)
+
+- Doc: Update Readme with version numbers
+- update Code Owners to include the Heroku Buildpack Maintainers team
+- Deprecation warning: BUILD_WITH_GEO_LIBRARIES is now deprecated. See warning for details.
+- Clean up build log output
+- Update Python versions in README to match docs
+- Django version detection fixed, link updated
+
+# 167 (2020-03-26)
+
+- Add failcase for cache busting
+- Bugfix: Clearing pip dependencies
+
+# 166 (2020-03-05)
 
 - Correct ftp to https in vendored file
 - Warn for Django 1.11 approaching EOL, provide link to roadmap
-
---------------------------------------------------------------------------------
 
 # 165 (2020-02-27)
 
