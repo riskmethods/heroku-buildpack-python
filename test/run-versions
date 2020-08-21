@@ -9,6 +9,7 @@ testPythonDefault() {
   compile "pythonDefault"
   assertCaptured $DEFAULT_PYTHON_VERSION
   assertNotCaptured "security update"
+  assertCaptured "Installing pip 20.1.1, setuptools 47.1.1 and wheel 0.34.2"
   assertCaptured "Installing SQLite3"
   assertCapturedSuccess
 }
@@ -18,12 +19,9 @@ testPython2() {
     echo $LATEST_27 > "runtime.txt"
     compile "python2"
     assertCaptured $LATEST_27
-    if [[ $(date "+%Y") > "2019" ]]; then
-      assertCaptured "python-2-7-eol-faq";
-    else
-      assertNotCaptured "python-2-7-eol-faq";
-    fi
+    assertCaptured "python-2-7-eol-faq";
     assertNotCaptured "security update"
+    assertCaptured "Installing pip 20.1.1, setuptools 44.1.1 and wheel 0.34.2"
     assertCaptured "Installing SQLite3"
     assertCapturedSuccess
 }
@@ -31,11 +29,7 @@ testPython2() {
 testPython2_warn() {
     compile "python2_warn"
     assertCaptured "python-2.7.15"
-    if [[ $(date "+%Y") > "2019" ]]; then
-      assertCaptured "python-2-7-eol-faq";
-    else
-      assertNotCaptured "python-2-7-eol-faq";
-    fi
+    assertCaptured "python-2-7-eol-faq";
     assertCaptured "Only the latest version"
     assertCaptured "Installing SQLite3"
     assertCapturedSuccess
@@ -51,29 +45,15 @@ testPython3_4() {
   compile "python3_4"
   assertCaptured $LATEST_34
   assertNotCaptured "security update"
-  # if cedar 14 and legacy binaries, fail. if cedar 14 and staging, succeed.
-  if [[ ! -n $USE_STAGING_BINARIES ]] && [[ $STACK == "cedar-14" ]]; then
-      assertCapturedError
-# if heroku 18 and legacy binaries, succeed. if heroku 18 and staging, fail.
-  elif [[ -n $USE_STAGING_BINARIES ]] && [[ $STACK == "heroku-18" ]]; then
-      assertCapturedError
-  else
-#   all else succeed
-    assertCapturedSuccess
-  fi
+  assertCaptured "Installing pip 19.1.1, setuptools 43.0.0 and wheel 0.33.6"
+  assertCapturedSuccess
 }
 
 testPython3_4_warn() {
   compile "python3_4_warn"
   assertCaptured "python-3.4.9"
   assertCaptured "security update!"
-# if heroku 18 and legacy binaries, succeed. if heroku 18 and staging, fail.
-  if [[ -n $USE_STAGING_BINARIES ]] && [[ $STACK == "heroku-18" ]]; then
-      assertCapturedError
-  else
-#   all else succeed
-    assertCapturedSuccess
-  fi
+  assertCapturedSuccess
 }
 
 testPython3_4_fail() {
@@ -86,6 +66,7 @@ testPython3_5() {
   compile "python3_5"
   assertCaptured $LATEST_35
   assertNotCaptured "security update"
+  assertCaptured "Installing pip 20.1.1, setuptools 47.1.1 and wheel 0.34.2"
   assertCaptured "Installing SQLite3"
   assertCapturedSuccess
 }
@@ -108,6 +89,7 @@ testPython3_6() {
   compile "python3_6"
   assertCaptured $LATEST_36
   assertNotCaptured "security update"
+  assertCaptured "Installing pip 20.1.1, setuptools 47.1.1 and wheel 0.34.2"
   assertCaptured "Installing SQLite3"
   assertCapturedSuccess
 }
@@ -134,6 +116,7 @@ testPython3_7() {
   else
     assertNotCaptured "security update"
     assertCaptured $LATEST_37
+    assertCaptured "Installing pip 20.1.1, setuptools 47.1.1 and wheel 0.34.2"
     assertCaptured "Installing SQLite3"
     assertCapturedSuccess
   fi
@@ -177,6 +160,7 @@ testPython3_8() {
   else
     assertNotCaptured "security update"
     assertCaptured $LATEST_38
+    assertCaptured "Installing pip 20.1.1, setuptools 47.1.1 and wheel 0.34.2"
     assertCaptured "Installing SQLite3"
     assertCapturedSuccess
   fi
@@ -190,22 +174,42 @@ testPython3_8_fail() {
 
 testPypy3_6() {
   compile "pypy3_6"
+  assertCaptured "Installing pypy"
+  assertNotCaptured "security update"
+  assertCaptured "$LATEST_PYPY_36"
+  assertCaptured "Installing pip 20.1.1, setuptools 47.1.1 and wheel 0.34.2"
+  assertCapturedSuccess
+}
+
+testPypy3_6_warn() {
+  compile "pypy3_6_warn"
   if [[ $STACK = "cedar-14" ]]; then
     assertCapturedError
   else
     assertCaptured "Installing pypy"
-    assertCaptured "$PYPY_36"
+    assertCaptured "security update!"
+    assertCaptured "$LATEST_PYPY_36"
     assertCapturedSuccess
   fi
 }
 
 testPypy2_7() {
   compile "pypy2_7"
+  assertCaptured "Installing pypy"
+  assertNotCaptured "security update"
+  assertCaptured "$LATEST_PYPY_27"
+  assertCaptured "Installing pip 20.1.1, setuptools 44.1.1 and wheel 0.34.2"
+  assertCapturedSuccess
+}
+
+testPypy2_7_warn() {
+  compile "pypy2_7_warn"
   if [[ $STACK = "cedar-14" ]]; then
     assertCapturedError
   else
     assertCaptured "Installing pypy"
-    assertCaptured "$PYPY_27"
+    assertCaptured "security update!"
+    assertCaptured "$LATEST_PYPY_27"
     assertCapturedSuccess
   fi
 }
